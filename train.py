@@ -62,27 +62,27 @@ for e in epochs:
             break
        
     
-    # if (e%100) == 0 and e!=0:
-    #     for _ in range(1):
-    #         origin=env2.reset()
-    #         ob = np.zeros((ContinuousDQN.num_frames, ContinuousDQN.input_dim), theano.config.floatX)
-    #         ob[-1]= origin
-    #         r_sum = 0
-    #         steps = 0
-    #         for _t in range(1000):
-    #             action = ContinuousDQN.get_action(ob)
-    #             for i in range(ContinuousDQN.num_frames):
-    #                 ob[i], reward, done, _ = env2.step(action.reshape(action.shape[1]))
-    #                 r_sum += reward
-    #                 if done:
-    #                     break
-    #             if done:
-    #                 steps += (_t+1)
-    #                 break
-    #     if (e%1000==0):
-    #         with open('dumped/CDQN-v1-'+str(e)+'epoc.dump', 'wb+') as f:
-    #             pickle.dump(ContinuousDQN, f)
+    if (e%100) == 0 and e!=0:
+        r_sum = 0
+        steps = 0
+        for _ in range(10):
+            origin=env2.reset()
+            ob = np.zeros((ContinuousDQN.num_frames, ContinuousDQN.input_dim), theano.config.floatX)
+            ob[-1]= origin       
+            for _t in range(200):
+                action = ContinuousDQN.get_action(ob)
+                for i in range(ContinuousDQN.num_frames):
+                    ob[i], reward, done, _ = env2.step(action.reshape(action.shape[1]))
+                    r_sum += reward
+                    steps+=1
+                    if done:
+                        break
+                if done:
+                    break
+        if (e%10000==0):
+            with open('dumped/CDQN-v1-'+str(e)+'epoc.dump', 'wb+') as f:
+                pickle.dump(ContinuousDQN, f)
 
-    #     print('> > > After ', e, ' epochs, \naverage reward ---> ', r_sum/1, '\n average timesteps ---> ', steps/1)
-    #     print('t ---> ',count)
+        print('> > > After ', e, ' epochs, \naverage reward ---> ', r_sum/1, '\n average timesteps ---> ', steps/1)
+        print('t ---> ',count)
 

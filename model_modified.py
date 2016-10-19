@@ -6,13 +6,6 @@ import numpy as np
 theano.config.floatX='float32'
 theano.config.exception_verbosity='high'
 
-def inspect_inputs(i, node, fn):
-    print(i, node, "input(s) value(s):", [input[0] for input in fn.inputs],
-          end='')
-
-def inspect_outputs(i, node, fn):
-    print(" output(s) value(s):", [output[0] for output in fn.outputs])
-
 class ContinuousDeepQleaner(object):
     """docstring for DeepQFunction"""
     def __init__(self, batch_size, 
